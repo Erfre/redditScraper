@@ -1,0 +1,6 @@
+First try to create a reddit imgur scrape which scrapes images from subreddits and saves them
+Using beatiful soup
+
+
+the links are from different sources, one idea to identify the sources would be to splice the https://
+from the begining of the links. And then identify the imgur ones since they start with i
