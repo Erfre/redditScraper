@@ -4,3 +4,15 @@ Using beatiful soup
 
 the links are from different sources, one idea to identify the sources would be to splice the https://
 from the begining of the links. And then identify the imgur ones since they start with i
+
+
+
+If I find a image, check the div class entry unvoted then p class title or tag line
+
+So I either have to save the entire post with an id or scrape all posts and if an image is detected save the img and user+desc
+
+
+seems like I just can use praw and get all the submissions
+
+
+Figure out how to deciede how many post it will scrape from hot and all. Maybe some kind of system which evalulets the post based on number of comments and upvotes. When the value get below a certain treshhold its time to stop
