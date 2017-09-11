@@ -5,9 +5,6 @@ from urllib.request import urlopen
 from imgurDownloader import *
 
 
-# This file will find all the links and then send them into the downloader class
-
-
 def visitLink(link):
     url = link
     html = urlopen(url)

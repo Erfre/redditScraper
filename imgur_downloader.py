@@ -15,7 +15,7 @@ class imgDownloader(object):
         self.link = link
         self.albumUrls = []
 
-    # should make the save place somethig different. Like a folder with maybe date as name TODO  also scrape the username and caption
+    # should make the save place somethig different. Like a folder with TODO  also scrape the username and caption
     def downloadImage(self):
         # if album
         if self.albumUrls:

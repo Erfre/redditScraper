@@ -15,4 +15,13 @@ So I either have to save the entire post with an id or scrape all posts and if a
 seems like I just can use praw and get all the submissions
 
 
-Figure out how to deciede how many post it will scrape from hot and all. Maybe some kind of system which evalulets the post based on number of comments and upvotes. When the value get below a certain treshhold its time to stop
+
+
+Code Plan
+
+Split the code into different programs. The first one will just be a reddit scraper which scrapes a subreddit of picture+user+title+num_comments. The second program will be a instagram bot which follows and unfollows people based on how responsive they are to liking your accounts pictures. If they dont like the following stops. Store all accounts in a database and give them a score depending on how active they are and if they fall below just unfollow them. Third program will create instagram posts out of the pictures which are saved and keep track on what time it should post these images for maximum number of likes. And also figure out a system for titles and hashtags to the posts.
+
+
+Reddit Scraper:
+
+Figure out how to decide how many post it will scrape from hot and all. Maybe some kind of system which evalulets the post based on number of comments and upvotes. When the value get below a certain treshhold its time to stop
