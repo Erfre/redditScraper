@@ -4,7 +4,8 @@ import urllib.request
 from urllib.request import urlopen
 from imgurDownloader import *
 
-
+"""This code were used early on to test different ways of scraping images of
+reddit. Now I use praw instead"""
 def visitLink(link):
     url = link
     html = urlopen(url)
@@ -30,14 +31,13 @@ def downloadImgurPics(listOfLinks):
 
         urllib.request.urlretrieve(link, os.path.basename(link))
 
-def getUser(link):
-    # get the p class tag line
-    soup = visitLink(link)
-    for link in soup.find_all('p', {'class': 'tagline'}):
-        # print (link.get('title'))
-        user = link.find('a',{'class': 'author'})
-        print (user.get('href'))
-
+# def getUser(link):
+#     # get the p class tag line
+#     soup = visitLink(link)
+#     for link in soup.find_all('p', {'class': 'tagline'}):
+#         # print (link.get('title'))
+#         user = link.find('a',{'class': 'author'})
+#         print (user.get('href'))
 # link = input("Link to subreddit:")
 # link = 'https://www.reddit.com/r/MechanicalKeyboards/'
 # print("visiting Link")

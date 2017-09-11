@@ -4,7 +4,8 @@ import urllib.request
 import re
 from bs4 import BeautifulSoup
 
-# Here is the downloader class which will contain the download id and saving of the images\
+"""this code is just some ideas I had early on in the project, probably wont
+use any of these functions"""
 
 
 class imgDownloader(object):

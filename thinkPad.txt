@@ -25,3 +25,19 @@ Split the code into different programs. The first one will just be a reddit scra
 Reddit Scraper:
 
 Figure out how to decide how many post it will scrape from hot and all. Maybe some kind of system which evalulets the post based on number of comments and upvotes. When the value get below a certain treshhold its time to stop
+
+so maybe I just get posts until I reach a certain thresh hold?
+or what else can I do to solve the limit problem?
+The question is how many posts I should save from top all time!
+
+Solution:
+evaluate each post and when the score is declining stop retrieving
+
+conditions on when to save the post:
+1. It contains a imgur link or a savable picture, no gifs
+2. It has a upvote downvote ratio above 0.75 and a min
+3. If the user posting has not been deleted
+
+
+
+okay so now, let's say I save all links which are considered worth saving into a database with link, username, title
