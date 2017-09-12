@@ -41,3 +41,5 @@ conditions on when to save the post:
 
 
 okay so now, let's say I save all links which are considered worth saving into a database with link, username, title
+
+so next up is creating a db and then a table into each post get saved, but before it need to make sure the condition are met. Which will be added after the database file is created

@@ -25,16 +25,15 @@ class sub_scrape(object):
     def __init__(self, subreddit, limit):
         """Initilize."""
         super(sub_scrape, self).__init__()
-        self.subreddit = subreddit
+        self.sub = subreddit
         self.limit = limit
-        self.post_nr = 0
 
     def get_hot(self):
         """Retrives the subbmissions in hot.
 
         Returns user, title, url, number of comments
         """
-        for submission in reddit.subreddit(self.subreddit).top(limit=200):
+        for submission in reddit.subreddit(self.sub).top(limit=self.limit):
             if submission.author is None:
                 continue
             else:
@@ -43,8 +42,8 @@ class sub_scrape(object):
                     title = submission.title
                     user = submission.author.name
                     url = submission.url
-                    print(user, title, url, self.post_nr)
-                    self.post_nr += 1
+                    print(user, title, url)
+                    # send into db {"title": title, "user": user, "link": url}
 
     def eval_submission(self, submission):
         """Rate current submission."""
@@ -52,5 +51,6 @@ class sub_scrape(object):
         ratio = submission.upvote_ratio
         result = comments * ratio
         return result
-a = sub_scrape('MechanicalKeyboards', 10)
-a.get_hot()
+
+a = sub_scrape('MechanicalKeyboards', 100)
+print(a.get_hot())
