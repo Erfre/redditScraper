@@ -7,7 +7,7 @@ reddit = praw.Reddit(client_id=reddit_account["client_id"],
                      client_secret=reddit_account["client_secret"],
                      user_agent="subbreddit scraper v0.1 by /u/isThisWhatIDo")
 
-
+#this does not need to be a class TODO just add to main
 # New way of getting submissions from the subbreddits
 class sub_scrape(object):
     """Scrape a subbreddit for pictures.

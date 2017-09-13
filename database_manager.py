@@ -43,22 +43,25 @@ class db_manager(object):
         except Error as e:
             print(e)
 
-    def create_post(self, conn, post):
-        """Create a new post into the post table.
+    def create_row(self, conn, post):
+        """Create a new row into the table.
 
         :param conn:
-        :param post:
+        :param post: 3 values (title,user,link)
         :return: post id
         """
-        sql_insert = ('INSERT INTO ' + self.table)
-        sql = sql_insert + '(id,title,user,link) VALUES(?,?,?,?) '
-        print(sql)
-        c = conn.cursor()
-        c.execute(sql, post)
-        return c.lastrowid
+        sql_insert = (' INSERT INTO ' + self.table)
+        sql = sql_insert + '(title,user,link) VALUES(?,?,?) '
+        cur = conn.cursor()
+        cur.execute(sql, post)
+        conn.commit()
+        return cur.lastrowid
 
-test = db_manager('/home/lqa/Databases/test/test.db')
-conn = test.create_connect()
-test.create_table(conn, "test")
-k = (1, 'hej', 'dd', 'aa')
-test.create_post(conn, k)
+# Testing
+# test = db_manager('/home//Databases/test/test.db')
+# conn = test.create_connect()
+# test.create_table(conn, "test")
+# k = ("hej", "dd", "aa")
+# l = ("kk", "ff", "aa")
+# a = test.create_post(conn, k)
+# b = test.create_post(conn, l)
