@@ -14,7 +14,7 @@ def get_hot(sub, limit, db, conn):
 
     Sends user, title, url to a new row in the database
     """
-    for submission in reddit.subreddit(sub).top(limit=limit):
+    for count, submission in enumerate(reddit.subreddit(sub).top(limit=limit)):
         if submission.author is None:
             continue
         else:
@@ -23,14 +23,15 @@ def get_hot(sub, limit, db, conn):
                 title = submission.title
                 user = submission.author.name
                 url = submission.url
-                row = (title, user, url)
-                db.create_row(conn, row)
+                data = (title, user, url)
+                db.create_row(conn, data)
+                print("Submissions left: ", (limit - count))
 
 
 def eval_submission(submission):
     """Rate current submission.
 
-    Something to look at later.
+    Something for future use.
     """
     comments = submission.num_comments
     ratio = submission.upvote_ratio
@@ -39,18 +40,25 @@ def eval_submission(submission):
 
 
 def init():
+    """Retrives inputs from user.
+
+    :param subreddit: The subreddit name e.g funny
+    :param db_directory: directory for database e.g /home/user/database/funn.db
+    """
     print("This program saves posts from a subreddit into a database")
     subreddit = input("Enter what subreddit you want to scrape /r/")
     db_directory = input("Enter directory and name for database: ")
-    return subreddit, db_directory
+    limit = input("Enter amount of posts to fetch(Max: 1000): ")
+    return subreddit, db_directory, limit
 
 
 def main():
-    subreddit, db_dir = init()
+    """Start program."""
+    subreddit, db_dir, limit = init()
     db = db_manager(db_dir)
     conn = db.create_connect()
     db.create_table(conn, "top")
-    get_hot(subreddit, 20, db, conn)
+    get_hot(subreddit, limit, db, conn)
     print("Done.")
 
 main()
