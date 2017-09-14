@@ -4,7 +4,10 @@ from sqlite3 import Error
 
 
 class db_manager(object):
-    """docstring for db_manager."""
+    """docstring for db_manager.
+
+    This class handles all the connections to the database.
+    """
 
     def __init__(self, dir_db):
         """Initilize.
@@ -56,12 +59,3 @@ class db_manager(object):
         cur.execute(sql, post)
         conn.commit()
         return cur.lastrowid
-
-# Testing
-# test = db_manager('/home//Databases/test/test.db')
-# conn = test.create_connect()
-# test.create_table(conn, "test")
-# k = ("hej", "dd", "aa")
-# l = ("kk", "ff", "aa")
-# a = test.create_post(conn, k)
-# b = test.create_post(conn, l)
