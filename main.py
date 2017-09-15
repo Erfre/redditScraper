@@ -60,5 +60,6 @@ def main():
     db.create_table(conn, "top")
     get_hot(subreddit, limit, db, conn)
     print("Done.")
+    db.cose()
 
 main()
