@@ -1,3 +1,4 @@
+"""The main file."""
 from database_manager import db_manager
 from sub_scrape import sub_scrape
 from json_loader import *

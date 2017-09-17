@@ -1,3 +1,4 @@
+"""This class goes through reddit submissions."""
 import praw
 
 

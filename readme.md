@@ -20,7 +20,7 @@ A small project which saves title, user and link of subreddit posts(all/top).
 
 ### History/Goal
 
-I made this to learn more about how databases work and how to use them. Also because I want to train on using pep 8.
+I made this to learn more about how databases work and how to use them.
 
 ### License
 
