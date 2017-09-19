@@ -1,6 +1,7 @@
 # Subreddit post saver
 
-A small project which saves title, user and link of subreddit posts(all/top).
+A subreddit scraper which saves pictures and a small description for each image on the subreddit.
+These pictures and descriptions are saved into a database.
 
 ## Installation
 
@@ -10,7 +11,11 @@ A small project which saves title, user and link of subreddit posts(all/top).
         "reddit":
         [
             {"username":"", "password":"","client_id":"", "client_secret":""}
-        ]
+        ],
+        "subreddit":"",
+        "db_path_name":"",
+        "time_filter":"",
+        "img_path": ""
     }
 
 3. Run main.py in terminal.
@@ -20,7 +25,7 @@ A small project which saves title, user and link of subreddit posts(all/top).
 
 ### History/Goal
 
-I made this to learn more about how databases work and how to use them.
+I made this to learn more about how databases work and how to use them. Also because I wanted to learn more about python.
 
 ### License
 
