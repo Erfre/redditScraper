@@ -26,14 +26,14 @@ class sub_scrape(object):
             user_agent="subbreddit scraper v0.1 by /u/isThisWhatIDo")
         self.limit = limit
 
-    def get_posts(self, month, db, conn):
+    def get_posts(self, time_filter, db, conn, url_handler):
         """Retrives the subbmissions in hot.
 
         Returns user, title, url, number of comments
         """
         count = 0
 
-        for submission in self.reddit.subreddit(self.sub).top(month):
+        for submission in self.reddit.subreddit(self.sub).top(time_filter):
             if submission.author is None:
                 continue
             elif count == self.limit:
@@ -45,9 +45,17 @@ class sub_scrape(object):
                     count += 1
                     title = submission.title
                     user = submission.author.name
-                    data = (title, user, url)
+                    desc = self.create_simple_description(title, user)
+                    path = url_handler.download(url, user)
+                    print(path)
+                    data = (path, desc, 0)
                     db.create_row(conn, data)
                     print("Submissions left: ", (self.limit - count))
+
+    def create_simple_description(self, title, user):
+        """Give post a simple description."""
+        description = title + '\n' + '\n' + 'credit: ' + user
+        return description
 
     def eval_submission(self, submission):
         """Rate current submission.
@@ -61,7 +69,9 @@ class sub_scrape(object):
 
     def is_picture(self, url):
         """Check url for common image url."""
-        if '.jpg' or ".png" in url:
+        if 'gfycat' in url:
+            return False
+        elif '.jpg' or ".png" or '/a/' in url:
             return True
         else:
             return False
