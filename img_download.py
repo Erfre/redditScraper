@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import os
 from urllib.request import urlopen
 from urllib.request import urlretrieve
-
+from PIL import Image
 
 class img_url_handler(object):
     """docstring for img_url_handler."""
@@ -26,26 +26,40 @@ class img_url_handler(object):
         if not os.path.exists(full_file_path):
             os.makedirs(full_file_path)
 
-        self.get_img_urls(url)
+        self.album_check(url)
+        if is_not_gif(url):
+            if self.img_url:
+                for count, img in enumerate(self.img_url):
+                    self.save_img(img, full_file_path, str(count))
 
-        if self.img_url:
-            for count, img in enumerate(self.img_url):
-                urlretrieve(img, full_file_path + str(count) + '.jpg')
-        else:
-            urlretrieve(url, full_file_path + '1.jpg')
+            else:
+                print(url)
+                self.save_img(url, full_file_path, '0')
 
-        return full_file_path
 
-    def get_img_urls(self, url):
-        """Fetcing all the images from the link."""
+            return full_file_path
+
+    def save_img(self, url, path, img_name):
+        """Convert file to jpg."""
+        pic = (path+img_name + '.jpg')
+        urlretrieve(url, pic)
+
+    def is_not_gif(self, url):
+        """Make sure the url is not a gif"""
+        if 'gif' not in url:
+            return True
+
+    def album_check(self, url):
+        """Fetching all the images from the link."""
         self.img_url = []
         if '/a/' or '/gallery/' in url:
             html = urlopen(url)
             soup = BeautifulSoup(html, "lxml")
-            for img in soup.find_all(
-                    'img', {'class': 'post-image-placeholder'}):
+            for div_img in soup.find_all(
+                    'div', {'class': 'post-image'}):
+                img = div_img.find('img')       # Finds the img inside of the div
                 self.img_url.append('https:' + img['src'])
 
             return self.img_url
         else:
-            return
+            return False

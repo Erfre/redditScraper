@@ -47,14 +47,13 @@ class sub_scrape(object):
                     user = submission.author.name
                     desc = self.create_simple_description(title, user)
                     path = url_handler.download(url, user)
-                    print(path)
-                    data = (path, desc, 0)
+                    data = (path, desc, 0, url)
                     db.create_row(conn, data)
                     print("Submissions left: ", (self.limit - count))
 
     def create_simple_description(self, title, user):
         """Give post a simple description."""
-        description = title + '\n' + '\n' + 'credit: ' + user
+        description = title + '\n\n\n\n' + 'credit: ' + user
         return description
 
     def eval_submission(self, submission):
@@ -71,7 +70,7 @@ class sub_scrape(object):
         """Check url for common image url."""
         if 'gfycat' in url:
             return False
-        elif '.jpg' or ".png" or '/a/' in url:
+        elif '.jpg' or '.png' or '/a/' in url:
             return True
         else:
             return False

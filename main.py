@@ -21,10 +21,14 @@ def main():
     subreddit, db_dir, scraper, time_filter, img_path = init()
     db = db_manager(db_dir)
     conn = db.create_connect()
-    db.create_table(conn, time_filter + subreddit)
+    db.create_table(conn, subreddit + time_filter)
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
     print("Done.")
     conn.close()
 
 main()
+
+
+
+# Fix a checker for the image so it saves as a jpg format, then move on to the bot
