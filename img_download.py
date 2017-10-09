@@ -27,7 +27,7 @@ class img_url_handler(object):
             os.makedirs(full_file_path)
 
         self.album_check(url)
-        if is_not_gif(url):
+        if self.is_not_gif(url):
             if self.img_url:
                 for count, img in enumerate(self.img_url):
                     self.save_img(img, full_file_path, str(count))

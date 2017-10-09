@@ -37,10 +37,10 @@ class db_manager(object):
         """
         try:
             sql_table = ("CREATE TABLE IF NOT EXISTS " + table_name + """
-                                  (id integer PRIMARY KEY,
+                                  (id INTEGER PRIMARY KEY,
                                    path text NOT NULL,
                                    description text NOT NULL,
-                                   reviewed integer NOT NULL,
+                                   reviewed INTEGER NOT NULL,
                                    url text NOT NULL);""")
             c = conn.cursor()
             c.execute(sql_table)
