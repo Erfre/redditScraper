@@ -5,7 +5,6 @@ from json_loader import get_reddit
 from json_loader import get_settings
 from sub_scrape import sub_scrape
 import schedule
-import time
 
 def init():
     """Retrives inputs from user."""
@@ -14,12 +13,10 @@ def init():
     subreddit, db_directory, time_filter, img_path = get_settings()
     limit = 1000
     scraper = sub_scrape(subreddit, reddit_account, limit)
-    time_filter = "all"
     return subreddit, db_directory, scraper, time_filter, img_path
 
 
 def main():
-    conn.close()
 
     """Start program."""
     subreddit, db_dir, scraper, time_filter, img_path = init()
@@ -29,6 +26,7 @@ def main():
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
     print("Done.")
+    conn.close()
 
 
 
