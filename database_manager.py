@@ -61,3 +61,10 @@ class db_manager(object):
         cur.execute(sql_insert, post)
         conn.commit()
         return cur.lastrowid
+
+    def find_duplicate(self, conn):
+        sql_delete = "DELETE FROM " + self.table + " WHERE ID NOT IN (SELECT MIN(id) id FROM " + self.table + \
+                     " GROUP BY id, path);"
+        cur = conn.cursor()
+        cur.execute(sql_delete)
+        return cur

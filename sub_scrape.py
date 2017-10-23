@@ -53,7 +53,7 @@ class sub_scrape(object):
 
     def create_simple_description(self, title, user):
         """Give post a simple description."""
-        description = title + '\n\n\n\n' + 'credit: ' + user
+        description = title + '\n\n\n\n' + 'credit: /u/' + user
         return description
 
     def eval_submission(self, submission):
