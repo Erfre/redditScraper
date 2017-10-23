@@ -11,7 +11,7 @@ def main():
 
     """Start program."""
     tf = input("what timefilter would you like to use: ")
-    limit = input("how many posts:")
+    limit = int(input("how many posts:"))
     get_posts(tf, limit)
     print("Done.")
 
@@ -23,7 +23,8 @@ def get_posts(time_filter, limit):
     scraper = sub_scrape(subreddit, reddit_account, limit)
     db = db_manager(db_dir)
     conn = db.create_connect()
-    table_name = subreddit + "/" + time_filter
+    table_name = (subreddit + "from" + time_filter)
+    print(table_name)
     db.create_table(conn, table_name)
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
