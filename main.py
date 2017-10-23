@@ -29,9 +29,11 @@ def get_posts(time_filter, limit):
     scraper.get_posts(time_filter, db, conn, img_handler)
     conn.close()
 
-schedule.every(4).weeks.do(get_posts('month', 300))
 
 main()
+
+schedule.every(4).weeks.do(get_posts('month', 300))
+
 
 while True:
     schedule.run_pending()
