@@ -26,7 +26,7 @@ def get_settings():
 
     subreddit = settings["subreddit"]
     db_path = settings["db_path_name"]
-    time_filter = settings["time_filter"]
+   # time_filter = settings["time_filter"]
     img_path = settings["img_path"]
 
-    return subreddit, db_path, time_filter, img_path
+    return subreddit, db_path, img_path
