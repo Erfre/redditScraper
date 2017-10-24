@@ -7,11 +7,19 @@ from sub_scrape import sub_scrape
 import schedule
 import time
 
+def valid_timefilter(string):
+    valid = ['all', 'month', ]
 def main():
 
     """Start program."""
     tf = input("what timefilter would you like to use: ")
-    limit = int(input("how many posts:"))
+    while true:
+        try:
+            limit = int(input("how many posts:"))
+            break
+        except ValueError:
+            print('That was no valid number, try again with a number between 0-1000')
+
     get_posts(tf, limit)
     print("Done.")
 
@@ -24,7 +32,6 @@ def get_posts(time_filter, limit):
     db = db_manager(db_dir)
     conn = db.create_connect()
     table_name = (subreddit + "from" + time_filter)
-    print(table_name)
     db.create_table(conn, table_name)
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
