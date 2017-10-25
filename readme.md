@@ -18,10 +18,11 @@ These pictures and descriptions are saved into a database.
         "img_path": ""
     }
 
-3. Run main.py in terminal.
-4. Follow instructions in terminal.
-5. Wait for counter to reach zero.
-6. Have fun with collected data.
+3. Run setup.py in terminal.
+4. Run main.py
+5. Follow instructions in terminal.
+6. Wait for counter to reach zero.
+7. Have fun with collected data.
 
 ### History/Goal
 
