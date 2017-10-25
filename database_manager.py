@@ -39,9 +39,10 @@ class db_manager(object):
             sql_table = ("CREATE TABLE IF NOT EXISTS " + table_name + """
                                   (id INTEGER PRIMARY KEY,
                                    path text NOT NULL,
-                                   description text NOT NULL,
-                                   reviewed INTEGER NOT NULL,
-                                   url text NOT NULL);""")
+                                   title text NOT NULL,
+                                   user text NOT NULL,
+                                   url text NOT NULL,
+                                   reviewed INTEGER NOT NULL);""")
             c = conn.cursor()
             c.execute(sql_table)
             self.table = table_name
@@ -52,11 +53,11 @@ class db_manager(object):
         """Create a new row into the table.
 
         :param conn:
-        :param post: 3 string values (path,description, reviewed)
+        :param post: 5 string values (path,description, reviewed)
         :return: post id
         """
-        sql_insert = (' INSERT INTO ' + self.table + '''(path, description, reviewed, url)
-        VALUES(?,?,?, ?)''')
+        sql_insert = (' INSERT INTO ' + self.table + '''(path, title, user, url, reviewed)
+        VALUES(?,?,?,?,?)''')
         cur = conn.cursor()
         cur.execute(sql_insert, post)
         conn.commit()

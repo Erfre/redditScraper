@@ -8,12 +8,17 @@ import schedule
 import time
 
 def valid_timefilter(string):
-    valid = ['all', 'month', ]
+    valid = ['all', 'year', 'month', 'week', 'day', 'hour']
+    if string in valid:
+        return True
+    else:
+        return False
+
 def main():
 
     """Start program."""
     tf = input("what timefilter would you like to use: ")
-    while true:
+    while True:
         try:
             limit = int(input("how many posts:"))
             break

@@ -33,7 +33,6 @@ class img_url_handler(object):
                     self.save_img(img, full_file_path, str(count))
 
             else:
-                print(url)
                 self.save_img(url, full_file_path, '0')
 
 

@@ -1,6 +1,6 @@
 """This class goes through reddit submissions."""
 import praw
-
+import sys
 
 class sub_scrape(object):
     """Scrape a subbreddit for pictures.
@@ -33,23 +33,27 @@ class sub_scrape(object):
         """
         count = 0
 
-        for submission in self.reddit.subreddit(self.sub).top(time_filter):
-            if submission.author is None:
+        for submission in self.reddit.subreddit(self.sub).top(time_filter): # TODO fix the limit
+            if submission.author is None or self.is_picture(submission.url) is False:
                 continue
             elif count == self.limit:
                 return
             else:
-                result = self.eval_submission(submission)
+                count += 1
+                title = submission.title
+                user = submission.author.name
                 url = submission.url
-                if result > 20 and self.is_picture(url):
-                    count += 1
-                    title = submission.title
-                    user = submission.author.name
-                    desc = self.create_simple_description(title, user)
-                    path = url_handler.download(url, user)
-                    data = (path, desc, 0, url)
+                path = url_handler.download(url, user)
+                data = (path, title, user, url, 0)
+                print(data)
+
+                try:
+                    # I should use a try except here, which tries to put it into a new row
                     db.create_row(conn, data)
                     print("Submissions left: ", (self.limit - count))
+                except:
+                    e = sys.exc_info()
+                    print("%s" % e)
 
     def create_simple_description(self, title, user):
         """Give post a simple description."""
