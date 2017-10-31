@@ -1,0 +1,10 @@
+{
+
+    "reddit":
+    [
+        {"username":"", "password":"","client_id":"", "client_secret":""}
+    ],
+    "subreddit":"",
+    "db_path_name":"",
+    "img_path": ""
+}
