@@ -1,5 +1,6 @@
 """This class goes through reddit submissions."""
 import praw
+import datetime
 import sys
 
 class sub_scrape(object):
@@ -15,50 +16,39 @@ class sub_scrape(object):
     and also the title of the post.
     """
 
-    def __init__(self, subreddit, account, limit):
+    def __init__(self, subreddit, account):
         """Initilize."""
         super(sub_scrape, self).__init__()
-        self.sub = subreddit
         self.account = account
         self.reddit = praw.Reddit(
             client_id=self.account["client_id"],
             client_secret=self.account["client_secret"],
             user_agent="subbreddit scraper v0.1 by /u/isThisWhatIDo")
-        self.limit = limit
+        self.subreddit = self.reddit.subreddit(subreddit)
 
     def get_posts(self, time_filter, db, conn, url_handler):
-        """Retrives the subbmissions in hot.
+        """Retrives the subbmissions in top of subreddit, current limit is 100
 
-        Returns user, title, url, number of comments
+        Creates a new row in database containing Path to image, title of post,
+        post username, url to link and a 0. The url is used for debugging.
         """
-        count = 0
-
-        for submission in self.reddit.subreddit(self.sub).top(time_filter): # TODO fix the limit
+        for submission in self.subreddit.top(time_filter):
             if submission.author is None or self.is_picture(submission.url) is False:
                 continue
-            elif count == self.limit:
-                return
             else:
-                count += 1
                 title = submission.title
                 user = submission.author.name
                 url = submission.url
                 path = url_handler.download(url, user)
                 data = (path, title, user, url, 0)
-                print(data)
 
                 try:
                     # I should use a try except here, which tries to put it into a new row
                     db.create_row(conn, data)
-                    print("Submissions left: ", (self.limit - count))
+                    print("New row created: {} \n".format(data))
                 except:
                     e = sys.exc_info()
                     print("%s" % e)
-
-    def create_simple_description(self, title, user):
-        """Give post a simple description."""
-        description = title + '\n\n\n\n' + 'credit: /u/' + user
-        return description
 
     def eval_submission(self, submission):
         """Rate current submission.

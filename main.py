@@ -14,26 +14,12 @@ def valid_timefilter(string):
     else:
         return False
 
-def main():
 
-    """Start program."""
-    tf = input("what timefilter would you like to use: ")
-    while True:
-        try:
-            limit = int(input("how many posts:"))
-            break
-        except ValueError:
-            print('That was no valid number, try again with a number between 0-1000')
-
-    get_posts(tf, limit)
-    print("Done.")
-
-
-
-def get_posts(time_filter, limit):
+def get_posts(time_filter):
+    print("Started\n Getting last months top posts...")
     reddit_account = get_reddit()
     subreddit, db_dir, img_path = get_settings()
-    scraper = sub_scrape(subreddit, reddit_account, limit)
+    scraper = sub_scrape(subreddit, reddit_account)
     db = db_manager(db_dir)
     conn = db.create_connect()
     table_name = (subreddit + "from" + time_filter)
@@ -43,9 +29,9 @@ def get_posts(time_filter, limit):
     conn.close()
 
 
-main()
 
-schedule.every(4).weeks.do(get_posts('month', 300))
+
+schedule.every(4).weeks.do(get_posts('month'))
 
 
 while True:
