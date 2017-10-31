@@ -6,18 +6,7 @@ These pictures and descriptions are saved into a database.
 ## Installation
 
 1. Clone or download.
-2. Make a accounts.json file looking like this:
-    {
-        "reddit":
-        [
-            {"username":"", "password":"","client_id":"", "client_secret":""}
-        ],
-        "subreddit":"",
-        "db_path_name":"",
-        "time_filter":"",
-        "img_path": ""
-    }
-
+2. Fill in the accounts.json file with reddit user and settings.
 3. Run setup.py in terminal.
 4. Run main.py
 5. Follow instructions in terminal.
