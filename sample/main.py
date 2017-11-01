@@ -7,12 +7,6 @@ from sub_scrape import sub_scrape
 import schedule
 import time
 
-def valid_timefilter(string):
-    valid = ['all', 'year', 'month', 'week', 'day', 'hour']
-    if string in valid:
-        return True
-    else:
-        return False
 
 
 def get_posts(time_filter):
