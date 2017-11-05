@@ -39,19 +39,16 @@ class sub_scrape(object):
                 title = submission.title
                 user = submission.author.name
                 url = submission.url
-                path = url_handler.download(url, user)
-                if not path: # Is gif
-                    continue
-                else:
-                    data = (path, title, user, url, 0)
+                path, num_pics = url_handler.download(url, user)
+                data = (path, title, user, url, num_pics, 0)
 
-                    try:
-                        # I should use a try except here, which tries to put it into a new row
-                        db.create_row(conn, data)
-                        print("New row created: {} \n".format(data))
-                    except:
-                        e = sys.exc_info()
-                        print("%s" % e)
+                try:
+                    # I should use a try except here, which tries to put it into a new row
+                    db.create_row(conn, data)
+                    print("New row created: {} \n".format(data))
+                except:
+                    e = sys.exc_info()
+                    print("%s" % e)
 
     def eval_submission(self, submission):
         """Rate current submission.
@@ -65,9 +62,9 @@ class sub_scrape(object):
 
 
     def is_picture(self, url):
-        """Check url for common image url."""
-        img_urls = ['.jpg', '.png', '/a/', '/gallery/']
-        for img_url in img_urls:
-            if url.find(img_url):
+        """Check url for string matches to qualify that it is a picture."""
+        allowed_links = ['.jpg', '.png', '/a/', '/gallery/']
+        for img_url in allowed_links:
+            if url.find(img_url) != -1:
                 return True
         return False

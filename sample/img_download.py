@@ -26,46 +26,31 @@ class img_url_handler(object):
         if not os.path.exists(full_file_path):
             os.makedirs(full_file_path)
 
+        self.album_check(url)
 
-        if self.is_not_gif(url):
-
-            self.album_check(url)
-
-            if self.img_url:
-                for count, img in enumerate(self.img_url):
-                    self.save_img(img, full_file_path, str(count))
-
-            else:
-                self.save_img(url, full_file_path, '0')
-
-            return full_file_path
+        if self.img_url:
+            for count, img in enumerate(self.img_url):
+                self.save_img(img, full_file_path, str(count))
+            return full_file_path, count
         else:
-            return False
+            self.save_img(url, full_file_path, '0')
+            return full_file_path, 0
+
 
     def save_img(self, url, path, img_name):
         """Convert file to jpg."""
         pic = (path+img_name + '.jpg')
         urlretrieve(url, pic)
 
-    def is_not_gif(self, url):
-        """Make sure the url is not a gif
-        Compares gif extensions with the url to weed out the gifs
 
-        """
-        gif_extensions = ['gif', 'gifv', 'webm', 'gfycat']
-        for extension in gif_extensions:
-            if extension in url:
-                return False
-        return True
-
+    # maybe I can have a check for the downloaaded image to make sure its a jpg file
     def album_check(self, url):
         """Fetching all the images from the link."""
         self.img_url = []
         album_urls = ['/a/', '/gallery']
 
         for album in album_urls:
-            if not url.find(album) == -1:
-                print(url + ' this is a album')
+            if url.find(album) != -1:
                 html = urlopen(url)
                 soup = BeautifulSoup(html, "lxml")
                 for a in soup.find_all(

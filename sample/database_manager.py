@@ -42,6 +42,7 @@ class db_manager(object):
                                    title text NOT NULL,
                                    user text NOT NULL,
                                    url text NOT NULL,
+                                   num_pics INTEGER NOT NULL,
                                    reviewed INTEGER NOT NULL);""")
             c = conn.cursor()
             c.execute(sql_table)
@@ -56,8 +57,8 @@ class db_manager(object):
         :param post: 5 string values (path,description, reviewed)
         :return: post id
         """
-        sql_insert = (' INSERT INTO ' + self.table + '''(path, title, user, url, reviewed)
-        VALUES(?,?,?,?,?)''')
+        sql_insert = (' INSERT INTO ' + self.table + '''(path, title, user, url, num_pics, reviewed)
+        VALUES(?,?,?,?,?,?)''')
         cur = conn.cursor()
         cur.execute(sql_insert, post)
         conn.commit()
