@@ -12,7 +12,7 @@ class img_url_handler(object):
         super(img_url_handler, self).__init__()
         self.subreddit = subreddit
         self.path = path
-        self.save_path = self.path + self.subreddit
+        self.save_path = self.path + self.subreddit + 'IMG'
         self.img_url = []
 
     def download(self, url, user):
