@@ -47,11 +47,15 @@ class img_url_handler(object):
 
     def convert_jpg(self, path):
         """Convert image to jpeg and weed out incorrect format"""
-        im = Image.open(path)
-        with BytesIO() as f:
-            print(path, im)
-            im.save(f, format='JPEG')
-            return f.getvalue()
+        try:
+            im = Image.open(path)
+            with BytesIO() as f:
+                print(path, im)
+                im.save(f, format='JPEG')
+                return f.getvalue()
+        except OSError:
+            print('Cannot identify file format.\nMoving on...')
+            return False
         # im = Image.open(path)
         # rgb_im = im.convert('RGB')
         # rgb_im.save(name + '.jpg')

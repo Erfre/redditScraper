@@ -40,15 +40,18 @@ class sub_scrape(object):
                 user = submission.author.name
                 url = submission.url
                 path, num_pics = url_handler.download(url, user)
-                data = (path, title, user, url, num_pics, 0)
+                if path:
+                    data = (path, title, user, url, num_pics, 0)
 
-                try:
-                    # I should use a try except here, which tries to put it into a new row
-                    db.create_row(conn, data)
-                    print("New row created: {} \n".format(data))
-                except:
-                    e = sys.exc_info()
-                    print("%s" % e)
+                    try:
+                        # I should use a try except here, which tries to put it into a new row
+                        db.create_row(conn, data)
+                        print("New row created: {} \n".format(data))
+                    except:
+                        e = sys.exc_info()
+                        print("%s" % e)
+                else:
+                    continue
 
     def eval_submission(self, submission):
         """Rate current submission.
