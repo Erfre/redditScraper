@@ -49,16 +49,12 @@ class img_url_handler(object):
         """Convert image to jpeg and weed out incorrect format"""
         try:
             im = Image.open(path)
-            with BytesIO() as f:
-                print(path, im)
-                im.save(f, format='JPEG')
-                return f.getvalue()
+            rgb_im = im.convert('RGB')
+            rgb_im.save(path, 'JPEG')
+            return
         except OSError:
-            print('Cannot identify file format.\nMoving on...')
+            print('Cannot identify file format.\nMoving on...\n')
             return False
-        # im = Image.open(path)
-        # rgb_im = im.convert('RGB')
-        # rgb_im.save(name + '.jpg')
 
     def album_check(self, url):
         """Fetching all the images from the link."""
@@ -74,5 +70,6 @@ class img_url_handler(object):
                     img = a.find('img')  # Finds the img inside of the div
                     self.img_url.append('https:' + img['src'])
 
+                print(self.img_url)
                 return self.img_url
         return False
