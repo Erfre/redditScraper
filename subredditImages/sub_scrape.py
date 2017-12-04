@@ -39,8 +39,8 @@ class sub_scrape(object):
                 title = submission.title
                 user = submission.author.name
                 url = submission.url
-                path, num_pics = url_handler.download(url, user)
-                if path:
+                path, num_pics, formatEr = url_handler.download(url, user)
+                if formatEr:
                     data = (path, title, user, url, num_pics, 0)
 
                     try:

@@ -33,4 +33,4 @@ schedule.every(4).weeks.do(get_posts, 'month')
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    time.sleep(10)

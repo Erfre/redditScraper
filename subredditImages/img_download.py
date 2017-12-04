@@ -31,11 +31,11 @@ class img_url_handler(object):
 
         if self.img_url:
             for count, img in enumerate(self.img_url):
-                self.save_img(img, full_file_path, str(count))
-            return full_file_path, count
+                erCheck = self.save_img(img, full_file_path, str(count))
+            return full_file_path, count, erCheck
         else:
-            self.save_img(url, full_file_path, '0')
-            return full_file_path, 0
+            erCheck = self.save_img(url, full_file_path, '0')
+            return full_file_path, 0, erCheck
 
 
     def save_img(self, url, path, img_name):
@@ -43,7 +43,11 @@ class img_url_handler(object):
         pic = (path+img_name)
         urlretrieve(url, pic)
 
-        self.convert_jpg(pic)
+
+        #This never returns the Flase statement to the get posts in sub scrape, which makes it really hard
+        # To evalulate the boolean :) TODO
+        formatEr = self.convert_jpg(pic)
+        return formatEr
 
     def convert_jpg(self, path):
         """Convert image to jpeg and weed out incorrect format"""
@@ -51,7 +55,7 @@ class img_url_handler(object):
             im = Image.open(path)
             rgb_im = im.convert('RGB')
             rgb_im.save(path, 'JPEG')
-            return
+            return True
         except OSError:
             print('Cannot identify file format.\nMoving on...\n')
             return False
