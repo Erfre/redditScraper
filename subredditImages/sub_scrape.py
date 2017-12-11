@@ -53,6 +53,15 @@ class sub_scrape(object):
                 else:
                     continue
 
+    def is_picture(self, url):
+        """Check url for string matches to qualify that it is a picture."""
+        allowed_links = ['.jpg', '.png', '/a/', '/gallery/']
+        for img_url in allowed_links:
+            if url.find(img_url) != -1:
+                return True
+        return False
+
+
     def eval_submission(self, submission):
         """Rate current submission.
 
@@ -62,12 +71,3 @@ class sub_scrape(object):
         ratio = submission.upvote_ratio
         result = comments * ratio
         return result
-
-
-    def is_picture(self, url):
-        """Check url for string matches to qualify that it is a picture."""
-        allowed_links = ['.jpg', '.png', '/a/', '/gallery/']
-        for img_url in allowed_links:
-            if url.find(img_url) != -1:
-                return True
-        return False

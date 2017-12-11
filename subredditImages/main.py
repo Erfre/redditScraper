@@ -25,9 +25,8 @@ def get_posts(time_filter):
     print("Next run:", schedule.next_run())
 
 
+get_posts('all')
 
-
-schedule.every().seconds.do(first_run, 'all')
 schedule.every(4).weeks.do(get_posts, 'month')
 
 

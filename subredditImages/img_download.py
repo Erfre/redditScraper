@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import os
+from urllib.error import HTTPError
 from urllib.request import urlopen
 from urllib.request import urlretrieve
 from PIL import Image
@@ -41,13 +42,15 @@ class img_url_handler(object):
     def save_img(self, url, path, img_name):
         """Save file on computer"""
         pic = (path+img_name)
-        urlretrieve(url, pic)
+        print(url)
+        try:
+            urlretrieve(url, pic)
+            formatEr = self.convert_jpg(pic)
+            return formatEr
+        except HTTPError:
+            print('Url is forbidden.')
 
-
-        #This never returns the Flase statement to the get posts in sub scrape, which makes it really hard
-        # To evalulate the boolean :) TODO
-        formatEr = self.convert_jpg(pic)
-        return formatEr
+        return False
 
     def convert_jpg(self, path):
         """Convert image to jpeg and weed out incorrect format"""
