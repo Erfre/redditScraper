@@ -15,12 +15,6 @@ app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
-@app.cli.command('initdb')
-def initdb_command():
-    """Initializes the database."""
-    db = get_db()
-    print("Connected to database.\n")
-
 
 @app.teardown_appcontext
 def close_db(error):
@@ -30,21 +24,35 @@ def close_db(error):
 
 @app.route('/')
 def show_entries():
-    print(test)
+    db = get_db()
 
-#I need to figure out how the site should behave and look
-@app.route('/<db_name>')
-def hello():
-    return "nib"
+    a = db_m.get_random_row(db)
+    # TODO add the image to the site
+    # img_src = str(a[1]) + '0'
+    # print(img_src)
+    return app.send_static_file('index.html')
+
+
+
+# @app.route('/<db_name>')
+# def hello():
 #    # return app.send_static_file('index.html')
 
 
 
 def get_db():
     """Opens a new database connection if there is
-    none yet for the current application context."""
-    # not working atm
+    none yet for the current application context.
+    And counts total number of rows in database"""
     if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = db_m
-        g.sqlite_db.createconnect()
+        g.sqlite_db = db_m.create_connect()
+        db_m.count_row(g.sqlite_db)  # Counts the total number of rows
     return g.sqlite_db
+
+
+@app.cli.command('initdb')
+def initdb_command():
+    """Initializes the database."""
+    db = get_db()
+    print("Connected to database.\n")
+

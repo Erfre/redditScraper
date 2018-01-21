@@ -2,6 +2,7 @@
 import random
 import sqlite3
 from sqlite3 import Error
+from random import randint
 
 
 class db_manager(object):
@@ -18,6 +19,7 @@ class db_manager(object):
         super(db_manager, self).__init__()
         self.dir_db = dir_db
         self.table = ""
+        self.max_id = None
 
     def create_connect(self):
         """Create db connection to sqlite."""
@@ -29,13 +31,27 @@ class db_manager(object):
 
         return None
 
-    def get_row(self, conn, id):
-        """Return row based on id"""
+    def count_row(self, conn):
+        """Retrieves the max id in the table"""
         cur = conn.cursor()
-        cur.exectute('SELECT * FROM ' + self.table + ' WHERE id=?', (id,))
-        tot_rows = cur.fetchall()
-        if len(tot_rows) <= id:
-            return cur.fetchone()
-        else:
-            print("Id is out of range " + str(len(tot_rows)))
-            return
+        cur.execute('SELECT max(id) FROM ' + self.table)
+        max = cur.fetchone()[0]
+        self.max_id = max
+        print(type(max))
+        return
+
+
+
+    def get_random_row(self, conn): # Might not work when a row is deleted if its based on id?
+        """Return random row from table"""
+        cur = conn.cursor()
+
+        while True:
+            id = randint(0, self.max_id)
+            try:
+                cur.execute('SELECT * FROM ' + self.table + ' WHERE id=?', (id,))
+                return cur.fetchone()
+            except:
+                print("Looks like this id doesn't exist")
+                continue
+
