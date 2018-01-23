@@ -1,19 +1,16 @@
 from db_manager import db_manager
-from flask import Flask
-from flask import g
-from json_loader import get_settings
+from flask import Flask, g, render_template
 from json_loader import get_settings
 
-#Not working with multiple databases yet
 db_path, db_name = get_settings()
 db_m = db_manager(db_path)
 db_m.table = db_name
 
 # Static is where the html,css shit is
-app = Flask(__name__, static_url_path='/static/')
+app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+#pp.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 
 @app.teardown_appcontext
@@ -22,15 +19,15 @@ def close_db(error):
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def show_entries():
     db = get_db()
 
     a = db_m.get_random_row(db)
-    # TODO add the image to the site
-    # img_src = str(a[1]) + '0'
-    # print(img_src)
-    return app.send_static_file('index.html')
+    # just nedd to grab the /static/images/username/0 TODO
+    img_src = str(a[1]) + '0'
+    #img = "/static/images/0"
+    return render_template('index.html', img=img_src)
 
 
 
@@ -56,3 +53,5 @@ def initdb_command():
     db = get_db()
     print("Connected to database.\n")
 
+if __name__ == '__main__':
+    hello.run
