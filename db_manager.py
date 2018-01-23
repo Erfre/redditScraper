@@ -37,7 +37,6 @@ class db_manager(object):
         cur.execute('SELECT max(id) FROM ' + self.table)
         max = cur.fetchone()[0]
         self.max_id = max
-        print(type(max))
         return
 
 

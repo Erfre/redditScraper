@@ -1,6 +1,7 @@
 from db_manager import db_manager
 from flask import Flask, g, render_template
 from json_loader import get_settings
+import os
 
 db_path, db_name = get_settings()
 db_m = db_manager(db_path)
@@ -23,11 +24,17 @@ def close_db(error):
 def show_entries():
     db = get_db()
 
-    a = db_m.get_random_row(db)
-    # just nedd to grab the /static/images/username/0 TODO
-    img_src = str(a[1]) + '0'
-    #img = "/static/images/0"
-    return render_template('index.html', img=img_src)
+    rand_row = db_m.get_random_row(db)
+    img_src = str(rand_row[1]) + '0'
+    # splits the path and removes everything except the part after static/
+    dir_path = img_src.split(os.sep)
+    for dir in dir_path:
+        if dir != 'static':
+            dir_path.pop(0)
+
+    static_path = '/' + os.path.join(*dir_path)  # join won't accept lists * unpacks them
+
+    return render_template('index.html', img=static_path)
 
 
 
