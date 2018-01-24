@@ -39,16 +39,17 @@ class db_manager(object):
         self.max_id = max
         return
 
-
-
-    def get_random_row(self, conn): # Might not work when a row is deleted if its based on id?
+    def get_random_row(self, conn):
+        # Might not work when a row is deleted if its based on id?
+        # Solved by using a while loop atm.
         """Return random row from table"""
         cur = conn.cursor()
 
         while True:
             id = randint(0, self.max_id)
             try:
-                cur.execute('SELECT * FROM ' + self.table + ' WHERE id=?', (id,))
+                cur.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
+                AND reviewed=:rv""", {"rand": id, "rv": 0})
                 return cur.fetchone()
             except:
                 print("Looks like this id doesn't exist")

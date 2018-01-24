@@ -1,6 +1,5 @@
 TODO:
 
-Fix scaling on the website.
-Add the description in an editable textbox.
-Add save button to the textbox and commit changes to database.
+Add save button to the textbox and commit changes to database. //
 Change value on review in database to 1 after save is pressed.
+Make site look a bit more pretty

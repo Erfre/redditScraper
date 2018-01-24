@@ -1,5 +1,5 @@
 from db_manager import db_manager
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, url_for
 from json_loader import get_settings
 import os
 
@@ -7,11 +7,9 @@ db_path, db_name = get_settings()
 db_m = db_manager(db_path)
 db_m.table = db_name
 
-# Static is where the html,css shit is
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)
-#pp.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 
 @app.teardown_appcontext
@@ -22,10 +20,14 @@ def close_db(error):
 
 @app.route('/', methods=['GET', 'POST'])
 def show_entries():
-    db = get_db()
+    db = get_db() # creates a connection on the flask.g
 
     rand_row = db_m.get_random_row(db)
     img_src = str(rand_row[1]) + '0'
+    title = rand_row[2]
+    user = rand_row[3]
+    descritpion = title + '\n\nCredit:/u/' + user
+    print(descritpion)
     # splits the path and removes everything except the part after static/
     dir_path = img_src.split(os.sep)
     for dir in dir_path:
@@ -34,7 +36,7 @@ def show_entries():
 
     static_path = '/' + os.path.join(*dir_path)  # join won't accept lists * unpacks them
 
-    return render_template('index.html', img=static_path)
+    return render_template('index.html', img=static_path, desc=descritpion)
 
 
 
