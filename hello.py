@@ -1,5 +1,5 @@
 from db_manager import db_manager
-from flask import Flask, g, render_template, url_for
+from flask import Flask, g, render_template, url_for, request
 from json_loader import get_settings
 import os
 
@@ -27,7 +27,6 @@ def show_entries():
     title = rand_row[2]
     user = rand_row[3]
     descritpion = title + '\n\nCredit:/u/' + user
-    print(descritpion)
     # splits the path and removes everything except the part after static/
     dir_path = img_src.split(os.sep)
     for dir in dir_path:
@@ -36,8 +35,13 @@ def show_entries():
 
     static_path = '/' + os.path.join(*dir_path)  # join won't accept lists * unpacks them
 
-    return render_template('index.html', img=static_path, desc=descritpion)
+    if request.method == 'POST':
+        if request.form['action'] == 'Delete':
+            pass
+        if request.form['action'] == 'Save':\
+            pass
 
+    return render_template('index.html', img=static_path, desc=descritpion)
 
 
 # @app.route('/<db_name>')

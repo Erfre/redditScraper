@@ -1,5 +1,5 @@
 TODO:
 
-Add save button to the textbox and commit changes to database. //
+Commit the changes from the buttons to database!
 Change value on review in database to 1 after save is pressed.
 Make site look a bit more pretty
