@@ -23,6 +23,7 @@ def show_entries():
     db = get_db() # creates a connection on the flask.g
 
     rand_row = db_m.get_random_row(db)
+    id = str(rand_row[0])
     img_src = str(rand_row[1]) + '0'
     title = rand_row[2]
     user = rand_row[3]
@@ -36,10 +37,11 @@ def show_entries():
     static_path = '/' + os.path.join(*dir_path)  # join won't accept lists * unpacks them
 
     if request.method == 'POST':
+        if request.form['action'] == 'Save':
+            desc = format(request.form['text'])
+            db_m.update_desc(db, id, desc)
         if request.form['action'] == 'Delete':
-            pass
-        if request.form['action'] == 'Save':\
-            pass
+            db_m.delete_row(db, id)
 
     return render_template('index.html', img=static_path, desc=descritpion)
 

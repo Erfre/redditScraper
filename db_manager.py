@@ -55,3 +55,15 @@ class db_manager(object):
                 print("Looks like this id doesn't exist")
                 continue
 
+    def update_desc(self, conn, id, desc):
+        """Updates the title with a description of the image."""
+        cur = conn.cursor()
+        cur.execute('UPDATE ' + self.table + ' SET title=:desc ,reviewed=:rv WHERE id=:id',
+                    {"desc": desc, "rv": "1", "id": id})
+        conn.commit()
+
+    def delete_row(self, conn, id):
+        """Deletes entry in database"""
+        cur = conn.cursor()
+        cur.execute('DELETE FROM '+ self.table +' WHERE id=:id', {"id":id})
+        conn.commit()
