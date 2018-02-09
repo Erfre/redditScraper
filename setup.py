@@ -7,5 +7,5 @@ setup(
     url='https://github.com/Erfre/reddit_scraper',
     license='MIT',
     author='erfre',
-    install_requires=['praw', 'beautifulsoup4', 'schedule', 'flask']
+    install_requires=['praw', 'beautifulsoup4', 'schedule', 'flask', 'lxml']
 )

@@ -14,16 +14,15 @@ class img_url_handler(object):
         super(img_url_handler, self).__init__()
         self.subreddit = subreddit
         self.path = path
-        self.save_path = self.path + self.subreddit + 'IMG'
         self.img_url = []
 
     def download(self, url, user):
         """Download image to path.
 
         Downloads all images in img_url or just the img in url.
-        And saves them into path/subreddit/user/(number).jpg
+        And saves them into static/images/subreddit/user/(number).jpg
         """
-        full_file_path = os.path.join(self.save_path, user + '/')
+        full_file_path = os.path.join(self.path, user + '/')
 
         if not os.path.exists(full_file_path):
             os.makedirs(full_file_path)

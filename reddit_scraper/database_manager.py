@@ -85,7 +85,7 @@ class db_manager(object):
         cur = conn.cursor()
 
         while True:
-            id = randint(0, self.max_id)
+            id = randint(1, self.max_id)
             try:
                 cur.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
                   AND reviewed=:rv""", {"rand": id, "rv": 0})

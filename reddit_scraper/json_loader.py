@@ -25,11 +25,8 @@ def get_settings():
     settings = load_json("accounts.json")
 
     subreddit = settings["subreddit"]
-
-    db_path = settings["db_path_name"]
-    db_table = settings["db_table_name"]
-
-    img_path = '/static/' + db_table
+    db_path = settings["db_path"] + subreddit + '.db'
+    img_path = 'static/images/' + subreddit + '/'
 
     if not os.path.exists(img_path):
         os.makedirs(img_path)
