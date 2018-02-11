@@ -78,7 +78,7 @@ class db_manager(object):
         cur.execute('SELECT max(id) FROM ' + self.table)
         max = cur.fetchone()[0]
         self.max_id = max
-        return
+        return max
 
     def get_random_row(self, conn):
         """Return random row from table"""

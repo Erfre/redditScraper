@@ -1,5 +1,27 @@
 TODO:
 
-Fix readme.
-Create a custom json file to fill in information in.
-Make site look a bit more pretty.
+- Fix the route on the site so it is possible to go to different db by writing /(db_name)
+- Test everything with 2 instagram accounts
+- Fix Readme
+-
+-
+
+
+Ideas
+
+So now onto the final design. What should the program do once it is downloaded and executed?
+First off there won't be any database or images to choose from so the site should not be first
+which means that I the start of the program will be the terminal prompt fetching results
+from reddit and storing them into the database. This should from now on happen by the end of
+each month.
+
+
+After 100 of the top results this month is saved the program will move on and start
+the webserver and tell the user to fill out the description for the images and delete bad
+ones.
+
+Then it's all on the bot to continue the voyage. And post the pictures and so on.
+
+
+
+I could run the script once everyday and check what date it is

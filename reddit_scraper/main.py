@@ -9,38 +9,52 @@ import datetime
 import calendar
 import schedule
 import time
+import os
 
-def first_run(time_filter):
-    get_posts(time_filter)
+subreddit, db_path, img_path = get_settings()
+db_m = db_manager(db_path)
+reddit_account = get_reddit()
 
-
-def get_posts(time_filter):
-    reddit_account = get_reddit()
-    subreddit, db_dir, img_path = get_settings()
-    print("Started\n Getting top posts from {} {}...".format(time_filter, subreddit))
+def get_posts(db):
     scraper = sub_scrape(subreddit, reddit_account)
-    db = db_manager(db_dir)
     conn = db.create_connect()
-    db.create_table(conn, subreddit) #Table name is the name of the subreddit
+    time_filter = db_check(db, conn, db_path)
+    print("Started\n Getting top posts from {} {}...".format(time_filter, subreddit))
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
     conn.close()
 
-# get_posts('all')
 
-today = datetime.date.today()
-days_in_month = calendar.monthrange(today.year, today.month)[1]
+def db_check(db, conn, db_path):
+    """ Checks if the database file exist and if it contains any
+        data. If not it will start creating a db and download posts
+        from all."""
+
+    db_exist = db_path + subreddit + '.db'
+    if not os.path.exists(db_exist):
+        db.create_table(conn, subreddit)
+        return 'all'
+    else:
+        rows = db.count_row(conn)
+        if not rows:
+            return 'all'
+        else:
+            return 'month'
 
 def date_check():
+    today = datetime.date.today()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
     if str(today) == '1':
-        get_posts('month')
-    else:
+        get_posts(db_m)
         print('Time left till next reddit scrape: ', days_in_month - today.day)
-    return
+        return
+    else:
+        pass
+
 
 schedule.every().day.at('12:00').do(date_check)
 
 while True:
     schedule.run_pending()
     app.run()
-    time.sleep(1)
+    time.sleep(2)
