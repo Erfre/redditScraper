@@ -1,6 +1,6 @@
-from reddit_scraper.database_manager import db_manager
+from database_manager import db_manager
 from flask import Flask, g, render_template, url_for, request
-from reddit_scraper.json_loader import get_settings
+from json_loader import get_settings
 
 db_name, db_path, img_path = get_settings()
 db_m = db_manager(db_path)
@@ -60,6 +60,3 @@ def initdb_command():
     """Initializes the database."""
     db = get_db()
     print("Connected to database.\n")
-
-if __name__ == '__main__':
-    hello.run

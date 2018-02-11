@@ -1,15 +1,18 @@
 """The main file."""
+from views import *
 from database_manager import db_manager
 from img_download import img_url_handler
 from json_loader import get_reddit
 from json_loader import get_settings
 from sub_scrape import sub_scrape
+import datetime
+import calendar
 import schedule
 import time
 
 def first_run(time_filter):
     get_posts(time_filter)
-    return schedule.CancelJob
+
 
 def get_posts(time_filter):
     reddit_account = get_reddit()
@@ -22,14 +25,22 @@ def get_posts(time_filter):
     img_handler = img_url_handler(subreddit, img_path)
     scraper.get_posts(time_filter, db, conn, img_handler)
     conn.close()
-    print("Next run:", schedule.next_run())
 
+# get_posts('all')
 
-get_posts('all')
+today = datetime.date.today()
+days_in_month = calendar.monthrange(today.year, today.month)[1]
 
-schedule.every(4).weeks.do(get_posts, 'month')
+def date_check():
+    if str(today) == '1':
+        get_posts('month')
+    else:
+        print('Time left till next reddit scrape: ', days_in_month - today.day)
+    return
 
+schedule.every().day.at('12:00').do(date_check)
 
 while True:
     schedule.run_pending()
-    time.sleep(10)
+    app.run()
+    time.sleep(1)
