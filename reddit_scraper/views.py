@@ -1,11 +1,11 @@
 from database_manager import db_manager
-from flask import Flask, g, render_template, url_for, request
+from flask import Flask, g, render_template, request
 from json_loader import get_settings
 
-db_name, db_path, img_path = get_settings()
+subreddits, db_path = get_settings()
 db_m = db_manager(db_path)
-db_m.table = db_name
-
+#db_m.table = db_name
+#
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)
@@ -17,9 +17,16 @@ def close_db(error):
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
 
-@app.route('/', methods=['GET', 'POST'])
-def show_entries():
-    db = get_db()   # creates a connection on flask.g
+@app.route('/')
+def show_tables(subreddits):
+    for each in subreddits:
+        pass
+    # show the different subbreddits and tables in the database
+    return render_template('index.html', tables=subreddits)
+
+@app.route('/<subreddit>', methods=['GET', 'POST'])
+def show_entries(subreddit):
+    db = get_db(subreddit)   # creates a connection on flask.g
 
     rand_row = db_m.get_random_row(db)
     print(rand_row)
@@ -36,7 +43,7 @@ def show_entries():
         if request.form['action'] == 'Delete':
             db_m.delete_row(db, id)
 
-    return render_template('index.html', img=img_src, desc=descritpion)
+    return render_template('subtemp.html', img=img_src, desc=descritpion)
 
 
 # @app.route('/<db_name>')
@@ -45,18 +52,20 @@ def show_entries():
 
 
 
-def get_db():
+def get_db(sub):
     """Opens a new database connection if there is
     none yet for the current application context.
     And counts total number of rows in database"""
+
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = db_m.create_connect()
+        db_m.table = sub
         db_m.count_row(g.sqlite_db)  # Counts the total number of rows
     return g.sqlite_db
 
 
-@app.cli.command('initdb')
-def initdb_command():
-    """Initializes the database."""
-    db = get_db()
-    print("Connected to database.\n")
+# @app.cli.command('initdb')
+# def initdb_command():
+#     """Initializes the database."""
+#     db = get_db()
+#     print("Connected to database.\n")
