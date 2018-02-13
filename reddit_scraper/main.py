@@ -63,9 +63,9 @@ def date_check():
 for each in subreddits:
     get_posts(db_m, each)
     sleep(2)
-#schedule.every().day.at('12:00').do(date_check)
+schedule.every().day.at('12:00').do(date_check)
 app.run()
 
-# while True:
-#     schedule.run_pending()
-#     sleep(1)
+while True:
+    schedule.run_pending()
+    sleep(1)

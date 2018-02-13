@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" href="/static/favicon.ico">
+    <title>Landing page</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico')}}">
 
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
     <style></style>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
     <div>
         <ul>
-            {% for item in tables%}
-            <li>{{item}}
+            {% for item in tables %}
+            <li><a href="{{item}}">{{item}}</a>
             </li>
             {% endfor %}
         </ul>
