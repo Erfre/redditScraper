@@ -1,7 +1,65 @@
-.ig{ width:600px; height:600px;}
+.ig{ width:600px; height:600px; margin:0 auto;}
 .box{width:600px;height:100px}
 .description{width:600px; height:200px;}
-.buttons{float:right; clear:both;}
-.left{float:left; clear:both;}
+.right{float:right; }
+.left{float:left; }
 
 img{width:100%;height: 100%;}
+body {
+background: #F1F1F1;
+padding: 0;
+margin: 0;
+font-size: small;
+}
+
+ul.square-menu {
+list-style-type: none;
+list-style: none;
+padding: 0;
+font-family: "Kavoon", Helvetica, sans-serif;
+-webkit-font-smoothing: antialiased;
+width: 380px;
+margin: 40px auto;
+}
+ul.square-menu li{
+float: left;
+margin:5px;
+}
+
+ul.square-menu li a {
+display: inline-block;
+word-break:break-all;
+text-decoration: none;
+padding: 80px 60px;
+background: rgb(128, 128, 128);
+color: white;
+font-weight: normal;
+font-size: 120%;
+width: 60px;
+height: 30px;
+text-align: center;
+text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+-webkit-transition: all 0.1s ease-in;
+-ms-transition: all 0.1s ease-in;
+-moz-transition: all 0.1s ease-in;
+-o-transition: all 0.1s ease-in;
+transition: all 0.1s ease-in;
+}
+ul.square-menu li a.slink-x {
+background: rgb(238, 124, 0);
+}
+
+ul.square-menu li a.slink-y {
+background: rgb(0, 92, 192);
+}
+
+ul.square-menu li a:hover {
+background: rgb(48, 48, 48);
+-moz-transform: scale(1.2);
+-webkit-transform: scale(1.2);
+-o-transform: scale(1.2);
+transform: scale(1.2);
+-moz-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+-webkit-box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.12);
+}

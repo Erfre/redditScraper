@@ -10,9 +10,9 @@
 </head>
 <body>
     <div>
-        <ul>
+        <ul class="square-menu">
             {% for item in tables %}
-            <li><a href="{{item}}">{{item}}</a>
+            <li><a href="{{item}}" class="{{ loop.cycle('slink-x', 'slink-y')}}">{{item}}</a>
             </li>
             {% endfor %}
         </ul>

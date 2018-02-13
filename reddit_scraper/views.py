@@ -4,8 +4,7 @@ from json_loader import get_settings
 
 subreddits, db_path = get_settings()
 db_m = db_manager(db_path)
-#db_m.table = db_name
-#
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)

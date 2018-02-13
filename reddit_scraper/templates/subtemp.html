@@ -10,16 +10,16 @@
   <body>
   <div class="ig">
         <img src={{img}} alt="Image from database">
-  </div>
-  <div class="description">
-    <form method="post">
-        <textarea name="text" class="box">{{desc}}</textarea>
-        <input class="left" type="submit" name="action" value="Home">
-        <div class="buttons">
-                <input type="submit" name="action" value="Save">
-                <input type="submit" name="action" value="Delete">
-        </div>
-    </form>
+      <div class="description">
+        <form method="post">
+            <textarea name="text" class="box">{{desc}}</textarea>
+            <div>
+                <input type="submit" name="action" class="right" value="Save">
+                <input type="submit" name="action" class="right" value="Delete">
+                <input type="submit" name="action" class="left"value="Home">
+            </div>
+        </form>
+      </div>
   </div>
   </body>
 </html>
