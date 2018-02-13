@@ -9,7 +9,10 @@ from pathlib import Path
 from datetime import date
 from calendar import monthrange
 from time import sleep
+from _thread import start_new_thread
 import schedule
+
+
 
 # subreddit, db_path, img_path = get_settings()
 # db_m = db_manager(db_path) # here the path for the data base is created
@@ -49,22 +52,25 @@ def db_check(db, db_path, subreddit):
         else:
             return conn, 'month'
 
-def date_check():
+def date_check(db):
     today = date.today()
     days_in_month = monthrange(today.year, today.month)[1]
-    if str(today) == '1':
+    if str(today.day) == '1':
         for each in subreddits:
-            get_posts(db_m, each)
-        return
+            get_posts(db, each)
     else:
         print('Time left till next reddit scrape: ', days_in_month - today.day)
-        return
+    return
+
+def flaskThread():
+        app.run(host='0.0.0.0', use_reloader=False, debug=False, threaded=True)
 
 for each in subreddits:
     get_posts(db_m, each)
     sleep(2)
-schedule.every().day.at('12:00').do(date_check)
-app.run()
+
+schedule.every().day.at('12:00').do(date_check, db_m)
+start_new_thread(flaskThread, ())
 
 while True:
     schedule.run_pending()
