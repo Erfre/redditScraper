@@ -1,21 +1,23 @@
 # Subreddit post saver
 
-A subreddit scraper which saves pictures and a small description for each image on the subreddit.
-These pictures and descriptions are saved into a database.
+A scraper whom goes into user specified subreddits and looks for images to download.
+The image path is saved into an database together with a description.
+It then uses flask to host a local webserver where the user can enter each subreddits images
+randomly and choose to change the description or delete them.
 
 ## Installation
 
 1. Clone or download.
 2. Fill in the accounts.json file with reddit user and settings.
+3. Fill in what subreddits to scrape and where to store the database.
 3. Run setup.py in terminal.
 4. Run main.py
-5. Follow instructions in terminal.
-6. Wait for counter to reach zero.
-7. Have fun with collected data.
+6. Wait for flask server to start and goto the http.
 
 ### History/Goal
 
-I made this to learn more about how databases work and how to use them. Also because I wanted to learn more about python.
+I made this to learn more about how databases work and how to use them.
+Also because I wanted to learn more about python.
 
 ### License
 
