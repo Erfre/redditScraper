@@ -1,22 +1,21 @@
-<html>
-  <head>
-    <title>index</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Landing page</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico')}}">
+
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
-    <meta content="">
     <style></style>
-  </head>
-  <body>
-  <div class="ig">
-        <img src={{img}} alt="Image from database">
-  </div>
-  <div class="description">
-    <form method="post">
-        <textarea name="text" class="box">{{desc}}</textarea>
-            <div class="buttons">
-                <input type="submit" name="action" value="Save">
-                <input type="submit" name="action" value="Delete">
-            </div>
-    </form>
-  </div>
-  </body>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div>
+        <ul>
+            {% for item in tables %}
+            <li><a href="{{item}}">{{item}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
 </html>

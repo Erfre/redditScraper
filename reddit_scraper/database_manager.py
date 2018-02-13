@@ -60,49 +60,49 @@ class db_manager(object):
         """
         sql_insert = (' INSERT INTO ' + self.table + '''(path, title, user, url, num_pics, reviewed)
         VALUES(?,?,?,?,?,?)''')
-        cur = conn.cursor()
-        cur.execute(sql_insert, post)
+        c = conn.cursor()
+        c.execute(sql_insert, post)
         conn.commit()
-        return cur.lastrowid
+        return c.lastrowid
 
     def find_duplicate(self, conn):
         sql_delete = "DELETE FROM " + self.table + " WHERE ID NOT IN (SELECT MIN(id) id FROM " + self.table + \
                      " GROUP BY id, path);"
-        cur = conn.cursor()
-        cur.execute(sql_delete)
-        return cur
+        c = conn.cursor()
+        c.execute(sql_delete)
+        return c
 
     def count_row(self, conn):
         """Retrieves the max id in the table"""
-        cur = conn.cursor()
-        cur.execute('SELECT max(id) FROM ' + self.table)
-        max = cur.fetchone()[0]
+        c = conn.cursor()
+        c.execute('SELECT max(id) FROM ' + self.table)
+        max = c.fetchone()[0]
         self.max_id = max
         return max
 
     def get_random_row(self, conn):
         """Return random row from table"""
-        cur = conn.cursor()
+        c = conn.cursor()
 
         while True:
             id = randint(1, self.max_id)
             try:
-                cur.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
+                c.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
                   AND reviewed=:rv""", {"rand": id, "rv": 0})
-                return cur.fetchone()
+                return c.fetchone()
             except:
                 print("Looks like this id doesn't exist")
                 continue
 
     def update_desc(self, conn, id, desc):
         """Updates the title with a description of the image."""
-        cur = conn.cursor()
-        cur.execute('UPDATE ' + self.table + ' SET title=:desc ,reviewed=:rv WHERE id=:id',
+        c = conn.cursor()
+        c.execute('UPDATE ' + self.table + ' SET title=:desc ,reviewed=:rv WHERE id=:id',
                     {"desc": desc, "rv": "1", "id": id})
         conn.commit()
 
     def delete_row(self, conn, id):
         """Deletes entry in database"""
-        cur = conn.cursor()
-        cur.execute('DELETE FROM ' + self.table + ' WHERE id=:id', {"id": id})
+        c = conn.cursor()
+        c.execute('DELETE FROM ' + self.table + ' WHERE id=:id', {"id": id})
         conn.commit()
