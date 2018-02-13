@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>index</title>
+      <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico')}}">
+
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css')}}">
+      <meta content="">
+    <style></style>
+  </head>
+  <body>
+  <div class="ig">
+        <img src={{img}} alt="Image from database">
+  </div>
+  <div class="description">
+    <form method="post">
+        <textarea name="text" class="box">{{desc}}</textarea>
+        <input class="left" type="submit" name="action" value="Home">
+        <div class="buttons">
+                <input type="submit" name="action" value="Save">
+                <input type="submit" name="action" value="Delete">
+        </div>
+    </form>
+  </div>
+  </body>
+</html>
