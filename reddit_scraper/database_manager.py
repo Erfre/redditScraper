@@ -1,8 +1,8 @@
 """This class handles all the connections to the database."""
-import random
 import sqlite3
 from sqlite3 import Error
 from random import randint
+
 
 
 class db_manager(object):
@@ -19,6 +19,8 @@ class db_manager(object):
         super(db_manager, self).__init__()
         self.dir_db = dir_db
         self.table = ""
+        self.max_id = ""
+        self.min_id = ""
 
     def create_connect(self):
         """Create db connection to sqlite."""
@@ -72,24 +74,38 @@ class db_manager(object):
         c.execute(sql_delete)
         return c
 
-    def count_row(self, conn):
+    def count_row(self,conn):
+        self.max_id = self.get_max(conn)
+        self.min_id = self.get_min(conn)
+        return
+
+    def get_max(self, conn):
         """Retrieves the max id in the table"""
         c = conn.cursor()
         c.execute('SELECT max(id) FROM ' + self.table)
         max = c.fetchone()[0]
-        self.max_id = max
         return max
+
+    def get_min(self,conn):
+        """Retrieves the min id in the table."""
+        c = conn.cursor()
+        c.execute('SELECT min(id) FROM ' + self.table)
+        min = c.fetchone()[0]
+        return min
 
     def get_random_row(self, conn):
         """Return random row from table"""
         c = conn.cursor()
 
-        while True:
-            id = randint(1, self.max_id)
+        while True: # this needs to be the min id
+            id = randint(self.min_id, self.max_id)
+            print(id)
             try:
                 c.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
                   AND reviewed=:rv""", {"rand": id, "rv": 0})
                 return c.fetchone()
+            except (KeyboardInterrupt, SystemExit):
+                raise
             except:
                 print("Looks like this id doesn't exist")
                 continue

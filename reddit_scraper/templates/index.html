@@ -10,6 +10,15 @@
 </head>
 <body>
     <div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
         <ul class="square-menu">
             {% for item in tables %}
             <li><a href="{{item}}" class="{{ loop.cycle('slink-x', 'slink-y')}}">{{item}}</a>

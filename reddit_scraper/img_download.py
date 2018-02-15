@@ -46,6 +46,8 @@ class img_url_handler(object):
             urlretrieve(url, pic)
             formatEr = self.convert_jpg(pic)
             return formatEr
+        except (KeyboardInterrupt, SystemExit):
+            raise
         except:
             print('Url is not compatible.')
 
