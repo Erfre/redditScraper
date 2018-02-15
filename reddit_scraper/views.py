@@ -1,6 +1,7 @@
 from database_manager import db_manager
 from flask import Flask, g, render_template, request, url_for, redirect
 from json_loader import get_settings
+from shutil import rmtree
 
 subreddits, db_path = get_settings()
 db_m = db_manager(db_path)
@@ -28,6 +29,7 @@ def show_entries(subreddit):
 
             rand_row = db_m.get_random_row(db)
             id = str(rand_row[0])
+            path = rand_row[1]
             img_src = str(rand_row[1]) + '0'
             title = rand_row[2]
             user = rand_row[3]
@@ -37,11 +39,12 @@ def show_entries(subreddit):
                 if request.form['action'] == 'Save':
                     desc = format(request.form['text'])
                     db_m.update_desc(db, id, desc)
-                if request.form['action'] == 'Delete':
+                elif request.form['action'] == 'Delete':
                     db_m.delete_row(db, id)
-                if request.form['action'] == 'Home':
+                    rmtree(path)
+                elif request.form['action'] == 'Home':
                     return redirect(url_for('show_tables'))
-
+                return redirect(url_for('show_entries', subreddit=subreddit))
 
             return render_template('subtemp.html', img=img_src, desc=descritpion)
         except:

@@ -46,10 +46,10 @@ class img_url_handler(object):
             urlretrieve(url, pic)
             formatEr = self.convert_jpg(pic)
             return formatEr
-        except HTTPError:
-            print('Url is forbidden.')
+        except:
+            print('Url is not compatible.')
 
-        return False
+        return True
 
     def convert_jpg(self, path):
         """Convert image to jpeg and weed out incorrect format"""
@@ -57,10 +57,10 @@ class img_url_handler(object):
             im = Image.open(path)
             rgb_im = im.convert('RGB')
             rgb_im.save(path, 'JPEG')
-            return True
+            return False
         except OSError:
             print('Cannot identify file format.\nMoving on...\n')
-            return False
+            return True
 
     def album_check(self, url):
         """Fetching all the images from the link."""

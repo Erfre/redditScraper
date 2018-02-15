@@ -13,10 +13,6 @@ from _thread import start_new_thread
 import schedule
 
 
-
-# subreddit, db_path, img_path = get_settings()
-# db_m = db_manager(db_path) # here the path for the data base is created
-# #db_m.table = subreddit
 reddit_account = get_reddit()
 
 def get_posts(db, subreddit):
@@ -64,6 +60,7 @@ def date_check(db):
 
 def flaskThread():
         app.run(host='0.0.0.0', use_reloader=False, debug=False, threaded=True)
+
 
 for each in subreddits:
     get_posts(db_m, each)
