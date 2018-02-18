@@ -93,7 +93,7 @@ class db_manager(object):
         min = c.fetchone()[0]
         return min
 
-    def get_random_row(self, conn):
+    def get_random_row(self, conn, reviewed):
         """Return random row from table"""
         c = conn.cursor()
 
@@ -102,7 +102,7 @@ class db_manager(object):
             print(id)
             try:
                 c.execute('SELECT * FROM ' + self.table + """ WHERE id=:rand
-                  AND reviewed=:rv""", {"rand": id, "rv": 0})
+                  AND reviewed=:rv""", {"rand": id, "rv": reviewed})
                 return c.fetchone()
             except (KeyboardInterrupt, SystemExit):
                 raise

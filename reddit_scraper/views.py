@@ -30,7 +30,7 @@ def show_entries(subreddit):
         try:
             db = get_db(subreddit)   # creates a connection on flask.g
 
-            rand_row = db_m.get_random_row(db)
+            rand_row = db_m.get_random_row(db, 0)
             id = str(rand_row[0])
             path = rand_row[1]
             img_src = str(rand_row[1]) + '0'
