@@ -86,7 +86,7 @@ class db_manager(object):
         max = c.fetchone()[0]
         return max
 
-    def get_min(self,conn):
+    def get_min(self, conn):
         """Retrieves the min id in the table."""
         c = conn.cursor()
         c.execute('SELECT min(id) FROM ' + self.table)

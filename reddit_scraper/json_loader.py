@@ -1,6 +1,5 @@
 """Retrives the account info from json file."""
 import json
-import os
 
 def load_json(file):
     """Load json file."""
@@ -26,8 +25,6 @@ def get_settings():
 
     subreddit = settings["subreddit"]
     db_path = settings["db_path"] + 'reddit.db'
-    #img_path = 'static/images/'
-    #if not os.path.exists(img_path):
-     #   os.makedirs(img_path)
+
 
     return subreddit, db_path
