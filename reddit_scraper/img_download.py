@@ -31,10 +31,10 @@ class img_url_handler(object):
 
         if self.img_url:
             for count, img in enumerate(self.img_url):
-                erCheck = self.save_img(img, full_file_path, str(count))
+                erCheck = self.save_img(img, full_file_path, str(count) + '.jpg')
             return full_file_path, count, erCheck
         else:
-            erCheck = self.save_img(url, full_file_path, '0')
+            erCheck = self.save_img(url, full_file_path, '0.jpg')
             return full_file_path, 0, erCheck
 
 
