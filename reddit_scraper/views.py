@@ -33,7 +33,7 @@ def show_entries(subreddit):
             rand_row = db_m.get_random_row(db, 0)
             id = str(rand_row[0])
             path = rand_row[1]
-            img_src = str(rand_row[1]) + '0'
+            img_src = str(rand_row[1]) + '0.jpg'
             title = rand_row[2]
             user = rand_row[3]
             descritpion = title + '\n\nCredit:/u/' + user

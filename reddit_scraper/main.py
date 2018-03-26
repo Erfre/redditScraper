@@ -56,8 +56,8 @@ def flaskThread():
         app.run(host='0.0.0.0', use_reloader=False, debug=False, threaded=True)
 
 
-schedule.every().day.at('12:00').do(daily_run, db_m)
 start_new_thread(flaskThread, ())
+schedule.every().day.at('12:00').do(daily_run, db_m)
 
 while True:
     schedule.run_pending()
