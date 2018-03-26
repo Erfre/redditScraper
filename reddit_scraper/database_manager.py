@@ -79,6 +79,13 @@ class db_manager(object):
         self.min_id = self.get_min(conn)
         return
 
+    def is_empty(self, conn):
+        sql_count = "SELECT count(*) FROM " + self.table
+        c = conn.cursor()
+        c.execute(sql_count)
+        rows = c.fetchone()[0]
+        return rows
+
     def get_max(self, conn):
         """Retrieves the max id in the table"""
         c = conn.cursor()
