@@ -18,7 +18,7 @@ app.config.update(DATABASE=db_path)
 def close_db(error):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
+        db_m.close_conn()
 
 @app.route('/')
 def landing():
