@@ -18,6 +18,7 @@ class db_manager(object):
         """
         super(db_manager, self).__init__()
         self.dir_db = dir_db
+        self.conn = None
         self.table = ""
         self.max_id = ""
         self.min_id = ""
@@ -26,13 +27,20 @@ class db_manager(object):
         """Create db connection to sqlite."""
         try:
             conn = sqlite3.connect(self.dir_db)
-            return conn
+            self.conn = conn
+            return
         except Error as e:
             print(e)
 
         return None
 
-    def create_table(self, conn, table_name):
+    def close_conn(self):
+        self.conn.commit()
+        self.conn.close()
+        self.conn = None
+        return
+
+    def create_table(self, table_name):
         """Create a table with the CREATE TABLE sql statement.
 
         :param conn: Connection to database
@@ -47,13 +55,13 @@ class db_manager(object):
                                    url text NOT NULL,
                                    num_pics INTEGER NOT NULL,
                                    reviewed INTEGER NOT NULL);""")
-            c = conn.cursor()
+            c = self.conn.cursor()
             c.execute(sql_table)
             self.table = table_name
         except Error as e:
             print(e)
 
-    def create_row(self, conn, post):
+    def create_row(self, post):
         """Create a new row into the table.
 
         :param conn:
@@ -62,47 +70,49 @@ class db_manager(object):
         """
         sql_insert = (' INSERT INTO ' + self.table + '''(path, title, user, url, num_pics, reviewed)
         VALUES(?,?,?,?,?,?)''')
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute(sql_insert, post)
-        conn.commit()
+        self.conn.commit()
         return c.lastrowid
 
-    def find_duplicate(self, conn):
-        sql_delete = "DELETE FROM " + self.table + " WHERE ID NOT IN (SELECT MIN(id) id FROM " + self.table + \
-                     " GROUP BY id, path);"
-        c = conn.cursor()
-        c.execute(sql_delete)
-        return c
+    def find_duplicate(self, user):
+        sql_delete = "SELECT * FROM " + self.table + " WHERE user:=usr"
+        print(type(sql_delete))
 
-    def count_row(self,conn):
-        self.max_id = self.get_max(conn)
-        self.min_id = self.get_min(conn)
+        c = self.conn.cursor()
+        c.execute( "SELECT * FROM " + self.table + " WHERE user=:usr", {"usr": user})
+        s = c.fetchone()
+        return s
+
+    def count_row(self):
+        self.max_id = self.get_max()
+        self.min_id = self.get_min()
         return
 
-    def is_empty(self, conn):
+    def is_empty(self):
         sql_count = "SELECT count(*) FROM " + self.table
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute(sql_count)
         rows = c.fetchone()[0]
         return rows
 
-    def get_max(self, conn):
+    def get_max(self):
         """Retrieves the max id in the table"""
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute('SELECT max(id) FROM ' + self.table)
         max = c.fetchone()[0]
         return max
 
-    def get_min(self, conn):
+    def get_min(self):
         """Retrieves the min id in the table."""
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute('SELECT min(id) FROM ' + self.table)
         min = c.fetchone()[0]
         return min
 
-    def get_random_row(self, conn, reviewed):
+    def get_random_row(self, reviewed):
         """Return random row from table"""
-        c = conn.cursor()
+        c = self.conn.cursor()
 
         while True: # this needs to be the min id
             id = randint(self.min_id, self.max_id)
@@ -117,15 +127,16 @@ class db_manager(object):
                 print("Looks like this id doesn't exist")
                 continue
 
-    def update_desc(self, conn, id, desc):
+    def update_desc(self, id, desc):
         """Updates the title with a description of the image."""
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute('UPDATE ' + self.table + ' SET title=:desc ,reviewed=:rv WHERE id=:id',
                     {"desc": desc, "rv": "1", "id": id})
-        conn.commit()
+        self.conn.commit()
+        return
 
-    def delete_row(self, conn, id):
+    def delete_row(self, id):
         """Deletes entry in database"""
-        c = conn.cursor()
+        c = self.conn.cursor()
         c.execute('DELETE FROM ' + self.table + ' WHERE id=:id', {"id": id})
-        conn.commit()
+        self.conn.commit()

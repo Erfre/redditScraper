@@ -26,7 +26,7 @@ class sub_scrape(object):
             user_agent="subbreddit scraper v0.1 by /u/isThisWhatIDo")
         self.subreddit = self.reddit.subreddit(subreddit)
 
-    def get_posts(self, time_filter, db, conn, url_handler):
+    def get_posts(self, time_filter, db, url_handler):
         """Retrives the subbmissions in top of subreddit, current limit is 100
 
         Creates a new row in database containing Path to image, title of post,
@@ -39,13 +39,12 @@ class sub_scrape(object):
                 title = submission.title
                 user = submission.author.name
                 url = submission.url
-                path, num_pics, formatEr = url_handler.download(url, user)
+                path, num_pics, formatEr = url_handler.download(url, user, db)
                 if not formatEr:
                     data = (path, title, user, url, num_pics, 0)
 
                     try:
-                        # I should use a try except here, which tries to put it into a new row
-                        db.create_row(conn, data)
+                        db.create_row( data)
                         print("New row created: {} \n".format(data))
                     except:
                         e = sys.exc_info()

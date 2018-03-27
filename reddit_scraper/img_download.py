@@ -16,12 +16,19 @@ class img_url_handler(object):
         self.path = path
         self.img_url = []
 
-    def download(self, url, user):
+    def download(self, url, user, db):
         """Download image to path.
 
         Downloads all images in img_url or just the img in url.
         And saves them into static/images/subreddit/user/(number).jpg
         """
+        duplicate = db.find_duplicate(user)
+        post = 0
+        while duplicate != None:
+            user += str(post)
+            post += 1
+            duplicate = db.find_duplicate(user)
+
         full_file_path = os.path.join(self.path, user + '/')
 
         if not os.path.exists(full_file_path):
@@ -41,7 +48,6 @@ class img_url_handler(object):
     def save_img(self, url, path, img_name):
         """Save file on computer"""
         pic = (path+img_name)
-        print(url)
         try:
             urlretrieve(url, pic)
             formatEr = self.convert_jpg(pic)
@@ -78,6 +84,5 @@ class img_url_handler(object):
                     img = a.find('img')  # Finds the img inside of the div
                     self.img_url.append('https:' + img['src'])
 
-                print(self.img_url)
                 return self.img_url
         return False

@@ -29,8 +29,7 @@ def show_entries(subreddit):
     while True:
         try:
             db = get_db(subreddit)   # creates a connection on flask.g
-
-            rand_row = db_m.get_random_row(db, 0)
+            rand_row = db_m.get_random_row(0)
             id = str(rand_row[0])
             path = rand_row[1]
             img_src = str(rand_row[1]) + '0.jpg'
@@ -40,9 +39,9 @@ def show_entries(subreddit):
             if request.method == 'POST':
                 if request.form['action'] == 'Save':
                     desc = format(request.form['text'])
-                    db_m.update_desc(db, id, desc)
+                    db_m.update_desc(id, desc)
                 elif request.form['action'] == 'Delete':
-                    db_m.delete_row(db, id)
+                    db_m.delete_row(id)
                     rmtree(path)
                 elif request.form['action'] == 'Home':
                     return redirect(url_for('landing'))
@@ -66,5 +65,5 @@ def get_db(sub):
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = db_m.create_connect()
         db_m.table = sub
-        db_m.count_row(g.sqlite_db)
+        db_m.count_row()
     return g.sqlite_db
