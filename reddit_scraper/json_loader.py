@@ -26,5 +26,4 @@ def get_settings():
     subreddit = settings["subreddit"]
     db_path = settings["db_path"] + 'reddit.db'
 
-
     return subreddit, db_path

@@ -2,8 +2,8 @@
 import sqlite3
 from sqlite3 import Error
 from random import randint
-
-
+from shutil import rmtree
+from os import getcwd
 
 class db_manager(object):
     """docstring for db_manager.
@@ -22,6 +22,7 @@ class db_manager(object):
         self.table = ""
         self.max_id = ""
         self.min_id = ""
+        self.row = None
 
     def create_connect(self):
         """Create db connection to sqlite."""
@@ -76,9 +77,6 @@ class db_manager(object):
         return c.lastrowid
 
     def find_duplicate(self, user):
-        sql_delete = "SELECT * FROM " + self.table + " WHERE user:=usr"
-        print(type(sql_delete))
-
         c = self.conn.cursor()
         c.execute( "SELECT * FROM " + self.table + " WHERE user=:usr", {"usr": user})
         s = c.fetchone()
@@ -114,7 +112,7 @@ class db_manager(object):
         """Return random row from table"""
         c = self.conn.cursor()
 
-        while True: # this needs to be the min id
+        while True:
             id = randint(self.min_id, self.max_id)
             print(id)
             try:
@@ -124,19 +122,22 @@ class db_manager(object):
             except (KeyboardInterrupt, SystemExit):
                 raise
             except:
-                print("Looks like this id doesn't exist")
+                print("Error")
                 continue
 
-    def update_desc(self, id, desc):
+    def update_desc(self, desc):
         """Updates the title with a description of the image."""
         c = self.conn.cursor()
         c.execute('UPDATE ' + self.table + ' SET title=:desc ,reviewed=:rv WHERE id=:id',
-                    {"desc": desc, "rv": "1", "id": id})
+                    {"desc": desc, "rv": "1", "id": self.row[0]})
         self.conn.commit()
         return
 
-    def delete_row(self, id):
+    def delete_row(self):
         """Deletes entry in database"""
         c = self.conn.cursor()
-        c.execute('DELETE FROM ' + self.table + ' WHERE id=:id', {"id": id})
+        c.execute('DELETE FROM ' + self.table + ' WHERE id=:id', {"id": self.row[0]})
         self.conn.commit()
+        cur_path = getcwd()
+        path = cur_path + '/' + self.row[1]
+        rmtree(path)

@@ -56,6 +56,7 @@ class img_url_handler(object):
             raise
         except:
             print('Url is not compatible.')
+            return False
 
         return True
 
