@@ -7,7 +7,7 @@ subreddits, db_path = get_settings()
 db_m = db_manager(db_path)
 
 app = Flask(__name__)
-app.secret_key = "b\xf3\xaa\x83\xbeK\xa4\xa4B\xb8t\xb7UD:\xe4~\xf0\x08I\xe90\x85\xddu"
+app.secret_key = ""
 app.config.from_object(__name__)
 app.config.update(DATABASE=db_path)
 
